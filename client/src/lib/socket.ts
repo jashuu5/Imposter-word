@@ -3,14 +3,14 @@ import { io, Socket } from "socket.io-client";
 // Since server now serves both client and API on port 3001,
 // we always connect to port 3001 regardless of where the page loaded from.
 function getServerURL(): string {
+  if (process.env.NEXT_PUBLIC_SERVER_URL) {
+    return process.env.NEXT_PUBLIC_SERVER_URL;
+  }
   if (typeof window !== "undefined") {
-    const { hostname, protocol } = window.location;
+    const { hostname } = window.location;
     if (hostname === "localhost" || hostname === "127.0.0.1") {
-      // Local dev: client runs on 3000, server on 3001
       return "http://localhost:3001";
     }
-    // Remote (ngrok): server is on same host, same port (3001 tunneled via ngrok)
-    return `${protocol}//${hostname}`;
   }
   return "http://localhost:3001";
 }
