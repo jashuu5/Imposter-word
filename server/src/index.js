@@ -3,7 +3,6 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const path = require("path");
 const apiRoutes = require("./routes/api");
 const setupSocketHandlers = require("./socket/socketHandlers");
 
@@ -32,14 +31,7 @@ app.use("/api", apiRoutes);
 
 // ─── SERVE CLIENT ─────────────────────────────────────────────────
 // Use absolute path so it works on Windows and Mac
-const outPath = path.resolve(__dirname, "..", "..", "client", "out");
-console.log("Serving client from:", outPath);
 
-app.use(express.static(outPath));
-app.get("*", (req, res) => {
-  if (req.path.startsWith("/api") || req.path.startsWith("/socket.io")) return;
-  res.sendFile(path.join(outPath, "index.html"));
-});
 
 // ─── SOCKET HANDLERS ───────────────────────────────────────────────
 setupSocketHandlers(io);
