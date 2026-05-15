@@ -1,0 +1,10 @@
+version: "2"
+tunnels:
+  client:
+    proto: http
+    addr: 3000
+    # This gives you the public URL your friend visits
+  server:
+    proto: http
+    addr: 3001
+    # This is what NEXT_PUBLIC_SERVER_URL should point to
